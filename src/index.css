@@ -1,0 +1,194 @@
+@import 'tailwindcss';
+
+/*
+ * Цвета — только через CSS-переменные. Сейчас тема одна (тёмная); чтобы добавить светлую,
+ * достаточно описать те же переменные в блоке :root.light и переключать класс на <html>.
+ */
+:root {
+  --background: #0b1020;
+  --foreground: #e2e8f0;
+  --card: #111827;
+  --card-foreground: #e2e8f0;
+  --popover: #141c2f;
+  --popover-foreground: #e2e8f0;
+  --primary: #38bdf8;
+  --primary-foreground: #04131f;
+  --secondary: #1e293b;
+  --secondary-foreground: #e2e8f0;
+  --muted: #172033;
+  --muted-foreground: #8b98ad;
+  --accent: #1f2a40;
+  --accent-foreground: #f1f5f9;
+  --destructive: #ef4444;
+  --destructive-foreground: #fff;
+  --border: #243049;
+  --input: #2a3854;
+  --ring: #38bdf8;
+
+  --canvas: #0a0f1c;
+  --canvas-dots: #1c2740;
+  --node: #121a2c;
+  --node-border: #2b3a57;
+
+  /* Состояние узла по загрузке (5.9) */
+  --ok: #22c55e;
+  --warn: #f59e0b;
+  --crit: #ef4444;
+  --down: #64748b;
+
+  /* Виды точек-запросов (5.9) */
+  --flow-request: #38bdf8;
+  --flow-response: #5eead4;
+  --flow-message: #a78bfa;
+  --flow-compensation: #fb923c;
+  --flow-error: #f43f5e;
+
+  /* Паттерны на графиках сравнения */
+  --pattern-none: #94a3b8;
+  --pattern-local: #22d3ee;
+  --pattern-2pc: #f472b6;
+  --pattern-sagaOrchestration: #a3e635;
+  --pattern-sagaChoreography: #c084fc;
+  --pattern-tcc: #fbbf24;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-canvas: var(--canvas);
+  --color-node: var(--node);
+  --color-node-border: var(--node-border);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-crit: var(--crit);
+  --color-down: var(--down);
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 35%, transparent);
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a3854;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ---------- React Flow под тему ---------- */
+.react-flow {
+  --xy-background-color: var(--canvas);
+  --xy-edge-stroke: #3b4b6b;
+  --xy-edge-stroke-selected: var(--primary);
+  --xy-handle-background-color: #64748b;
+  --xy-handle-border-color: var(--background);
+  --xy-minimap-background-color: #0d1424;
+  --xy-minimap-mask-background-color: rgb(8 12 24 / 0.7);
+  --xy-controls-button-background-color: var(--card);
+  --xy-controls-button-background-color-hover: var(--accent);
+  --xy-controls-button-color: var(--foreground);
+  --xy-controls-button-border-color: var(--border);
+  --xy-selection-background-color: rgb(56 189 248 / 0.08);
+  --xy-selection-border: 1px dashed var(--primary);
+}
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  transition: transform 0.1s;
+}
+.react-flow__handle:hover {
+  transform: scale(1.4);
+  background: var(--primary);
+}
+.react-flow__node.selected > div {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.react-flow__attribution {
+  background: transparent !important;
+  opacity: 0.5;
+}
+.react-flow__attribution a {
+  color: var(--muted-foreground) !important;
+}
+.react-flow__edge.selected .edge-main {
+  stroke: var(--primary) !important;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--crit) 60%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 12px transparent;
+  }
+}
+.node-crit {
+  animation: pulse-ring 1.4s ease-out infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+.edge-replication {
+  animation: dash 1s linear infinite;
+}
+
+@keyframes hint-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hint-in {
+  animation: hint-in 0.2s ease-out;
+}
